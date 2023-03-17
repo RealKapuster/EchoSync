@@ -1,4 +1,0 @@
-# Brain Dump Smart contract
-
-
-
