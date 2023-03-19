@@ -1,8 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Header from "~/components/UI/Header";
+import Header from "~/components/layout/Header";
 import {useAtom} from "jotai";
 import { accountAtom } from '~/store';
+import Upload from "~/components/ui/Upload";
 
 const Home: NextPage = () => {
   const [account] = useAtom(accountAtom);
@@ -16,7 +17,13 @@ const Home: NextPage = () => {
       </Head>
       <Header></Header>
       <main className="flex min-h-screen flex-col items-center justify-center">
-        {account ? "Hello we are logged in" : "We are logged out"}
+        {account ? 
+          <div>
+            <h2>Hello we are logged in</h2>
+            <Upload></Upload>
+          </div> : 
+          <h2>We are logged out</h2>
+        }
       </main>
     </>
   );
