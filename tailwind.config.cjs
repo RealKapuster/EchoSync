@@ -6,6 +6,10 @@ const config = {
     container: {
       padding: '20px',
     },
+    colors: {
+      metamaskOrange: "#ee811a",
+      intmaxPurple: "#9f7aea"
+    }
   },
   corePlugins: {
     preflight: false,
