@@ -1,22 +1,41 @@
-import { useState } from 'react';
 import { Button } from 'antd';
+// Polybase Dependency
 import  {auth} from '~/helper';
+// Intmax Dependency
+import { IntmaxWalletSigner } from "webmax";
+
 import {useAtom} from "jotai";
 import { accountAtom, updateAccountAtom } from '~/store';
 
-import type { AuthState } from "@polybase/auth";
+// Interfaces
+export interface AccountInterface {
+    publicKey?: string | null;
+    chainId?: number; 
+}
 
 const Connect = () => {
+
     const [account] = useAtom(accountAtom);
     const [ ,updateAccount] = useAtom(updateAccountAtom);
-    // const [account, setAccount] = useState<AuthState | null>(null);
 
-    const signIn = async () => {
+    const signInPolybase = async () => {
         if(auth == null) return;
 
         try{
             const authState = await auth.signIn();
-            updateAccount(authState);
+            const accoundData = {publicKey: authState?.userId ?? null}
+            updateAccount(accoundData);
+        }catch(err){
+            console.log(err);
+        }
+    }
+    
+    const signInIntmax = async () => {
+        try{
+            const signer = new IntmaxWalletSigner();
+            const account = await signer.connectToAccount();
+            const accoundData = {publicKey: account?.address ?? null, chainId: account?.chainId }
+            updateAccount(accoundData);
         }catch(err){
             console.log(err);
         }
@@ -35,10 +54,13 @@ const Connect = () => {
 
     return (
     <div>
-        {account ? 
-            <Button type="primary" className="bg-green" onClick={()=> signOut()}>Disconnect Wallet</Button>
+        {!account ? 
+            <div className='flex'>
+                <Button type="primary" className="mr-2" onClick={()=> signInPolybase()}>Metamask Login</Button>
+                <Button type="primary" className="" onClick={()=> signInIntmax()}>Intmax Login</Button>
+            </div>
             :
-            <Button type="primary" className="bg-green" onClick={()=> signIn()}>Connect Wallet</Button>
+            <Button type="primary" className="bg-green" onClick={()=> signOut()}>Disconnect</Button>
         }
     </div>
     )
