@@ -3,7 +3,7 @@ import Head from "next/head";
 import Header from "~/components/layout/Header";
 import {useAtom} from "jotai";
 import { accountAtom } from '~/store';
-import Upload from "~/components/ui/Upload";
+import Transcribe from "~/components/Transcribe";
 
 const Home: NextPage = () => {
   const [account] = useAtom(accountAtom);
@@ -19,10 +19,10 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center">
         {account ? 
           <div>
-            <h2>Hello we are logged in</h2>
-            <Upload></Upload>
+            <h2>logged in</h2>
+            <Transcribe></Transcribe>
           </div> : 
-          <h2>We are logged out</h2>
+          <h2>logged out</h2>
         }
       </main>
     </>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Connect from "../util/Connect";
+import Connect from "../ui/Connect";
 
 const Header = () => {
     return (

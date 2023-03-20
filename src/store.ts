@@ -1,5 +1,5 @@
 import {atom} from "jotai";
-import type { AccountInterface } from "./components/util/Connect";
+import type { AccountInterface } from "./components/ui/Connect";
 
 // Jotai implementation
 export const accountAtom = atom<AccountInterface | null>(null);
