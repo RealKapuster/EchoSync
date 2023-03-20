@@ -3,8 +3,8 @@ import Connect from "../ui/Connect";
 
 const Header = () => {
     return (
-        <header className="bg-slate-500 p-2">
-            <div className='containe flex justify-between items-center'>
+        <header className="bg-white p-2 shadow">
+            <div className='container flex justify-between items-center'>
             <Image
                 src="/ui/parrot.svg"
                 alt="logo"
