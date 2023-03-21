@@ -17,9 +17,10 @@ const config = {
         },
       },
       colors: {
-        bgGray: "#f4f0ee",
+        bgGray: "#f5f8fa",
         bgLight: "#fffff",
-        // bgLightGray: "#42414d",
+        btnColour: "#007aff",
+        btnColourHover: "#0060c8",
         metamaskOrange: "#ee811a",
         intmaxPurple: "#9f7aea"
       },

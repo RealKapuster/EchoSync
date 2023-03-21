@@ -75,11 +75,19 @@ const Transcribe = () => {
     onDrop(e) {
       console.log("Dropped files", e.dataTransfer.files);
     },
+
+    onRemove() {
+      console.log("removed file");
+      setUploadedFile(undefined);
+    },
   };
+
+  console.log(uploadedFile !== undefined);
+  console.log(uploadedFile);
 
   return (
     <div className="rounded-lg bg-white p-6 shadow-md">
-      <h2 className="mt-0 font-normal">Transcribe Audio</h2>
+      <h2 className="mt-0 font-normal text-center">Upload Your Audio</h2>
       <Form onFinish={() => submitAudioFile()}>
         <div className="flex flex-col">
           <Form.Item className="">
@@ -92,26 +100,26 @@ const Transcribe = () => {
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />
                 </p>
-                <p className="ant-upload-text">
+                <p className="ant-upload-text !text-lg">
                   Click or drag file to this area to upload
                 </p>
-                <p className="ant-upload-hint">
+                <p className="ant-upload-hint !text-lg">
                   Support for a single or bulk upload. Strictly prohibited from
                   uploading company data or other banned files.
                 </p>
               </div>
             </Dragger>
           </Form.Item>
-          <Form.Item className="flex justify-end pt-3">
+          {(uploadedFile !== undefined && !loading) && <Form.Item className="flex justify-end pt-3 mb-0">
             <Button
-              className=""
+              className="bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto 
+                hover:!bg-transparent hover:!text-btnColour hover:!border-solid border-btnColour border-1"
               htmlType="submit"
               type={"primary"}
-              disabled={!uploadedFile || loading}
             >
               Transcribe
             </Button>
-          </Form.Item>
+          </Form.Item>}
         </div>
       </Form>
     </div>
