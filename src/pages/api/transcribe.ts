@@ -3,6 +3,7 @@ import multer, { type FileFilterCallback } from "multer";
 import axios from "axios";
 import FormData from "form-data";
 import { type NextApiRequest, type NextApiResponse } from "next";
+import { transcriptionMockData } from "./../../utils/mockData";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -13,12 +14,18 @@ interface ExtendedNextApiRequest extends NextApiRequest {
   };
 }
 
+class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+
 const upload = multer({
   fileFilter: (_, file, callback: FileFilterCallback) => {
-    console.log("filter");
     const validMimeTypes = ["audio/wav", "audio/mpeg", "audio/m4a"];
     if (!validMimeTypes.includes(file.mimetype)) {
-      callback(new Error("Invalid file type"));
+      callback(new ValidationError("Invalid file type"));
     } else {
       callback(null, true);
     }
@@ -29,11 +36,14 @@ const upload = multer({
 });
 
 const handler = nextConnect<ExtendedNextApiRequest, NextApiResponse>({
-  onError: (error, _, res) => {
-    if (error instanceof multer.MulterError) {
-      res.status(400).json({ error: "File size limit exceeded" });
+  onError: (error: Error, _, res) => {
+    if (
+      error instanceof multer.MulterError ||
+      error instanceof ValidationError
+    ) {
+      res.status(400).json({ error: error.message });
     } else {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ error: error.message || "Internal server error" });
     }
   },
 });
@@ -53,12 +63,10 @@ handler.post(async (req, res) => {
     formData.append("file", file.buffer, { filename: file.originalname });
     formData.append("model", "whisper-1");
 
-    if (OPENAI_API_KEY === undefined) {
-      return res
-        .status(200)
-        .json({
-          text: "test test speech to text test. (OPENAI_API_KEY not found)",
-        });
+    if (!OPENAI_API_KEY) {
+      return res.status(200).json({
+        text: `${transcriptionMockData.transcription}`,
+      });
     }
 
     const response = await axios({
