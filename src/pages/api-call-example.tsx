@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import axios from "axios";
-import { Button, Form, Spin, Typography } from "antd";
+import axios, { AxiosError } from "axios";
+import { Button, Form, message, Spin, Typography } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
@@ -48,7 +48,11 @@ const ApiCallExample = () => {
       );
       console.log(response.data);
       setTranscription(response.data.text);
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.error || "Internal Server Error";
+
+      message.error(errorMessage);
       console.error(error);
     }
 
