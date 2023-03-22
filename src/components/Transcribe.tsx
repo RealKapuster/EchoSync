@@ -5,16 +5,20 @@ import axios from "axios";
 
 import { RcFile } from "antd/es/upload";
 import type { UploadProps } from "antd";
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
+
+import {useAtom} from "jotai";
+import { transcriptAtom, updateTranscriptAtom } from '~/store';
 
 const { Dragger } = Upload;
 
 const Transcribe = () => {
+  const [loading, setLoading] = useState(false);
+  const sizeLimit = 100 * 1024 * 1024; // 100 MB
+  const [ ,updateTranscript] = useAtom(updateTranscriptAtom);
   const [uploadedFile, setUploadedFile] = useState<RcFile | undefined>(
     undefined
   );
-  const [transcript, setTranscript] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const sizeLimit = 100 * 1024 * 1024; // 100 MB
 
   const submitAudioFile = async () => {
     console.log("Submit");
@@ -29,17 +33,17 @@ const Transcribe = () => {
 
     try {
       const response = await axios.post<{ text: string }>(
-        "/api/transcribe",
+        // "/api/transcribe",
+        "/api/fakeTranscribe",
         formData
       );
-      console.log(response.data);
-      setTranscript(response.data.text);
-      console.log(response.data.text);
+      updateTranscript(response.data.text);
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.error || "Internal Server Error";
+      error.response?.data?.error || "Internal Server Error";
       message.error(errorMessage);
       console.error(error);
+      updateTranscript(null);
     }
 
     setLoading(false);
@@ -82,8 +86,11 @@ const Transcribe = () => {
     },
   };
 
-  console.log(uploadedFile !== undefined);
-  console.log(uploadedFile);
+  const dummyRequest = ({file, onSuccess}: RcCustomRequestOptions<any>) => {
+    setTimeout(()=> {
+      onSuccess && onSuccess(`${file} file uploaded successfully.`);
+    }, 0)
+  }
 
   return (
     <div className="rounded-lg bg-white p-6 shadow-md">
@@ -93,6 +100,7 @@ const Transcribe = () => {
           <Form.Item className="">
             <Dragger
               {...uploadSettings}
+              customRequest={dummyRequest}
               accept="audio/wav, audio/mpeg, audio/m4a"
               maxCount={1}
             >
@@ -110,15 +118,17 @@ const Transcribe = () => {
               </div>
             </Dragger>
           </Form.Item>
-          {(uploadedFile !== undefined && !loading) && <Form.Item className="flex justify-end pt-3 mb-0">
-            <Button
-              className="bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto 
-                hover:!bg-transparent hover:!text-btnColour hover:!border-solid border-btnColour border-1"
-              htmlType="submit"
-              type={"primary"}
-            >
-              Transcribe
-            </Button>
+          {uploadedFile !== undefined && 
+            <Form.Item className="flex justify-end pt-3 mb-0">
+              <Button
+                className="bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto 
+                  hover:!bg-transparent hover:!text-btnColour hover:!border-solid disabled:!text-slate-200 border-btnColour border-1"
+                htmlType="submit"
+                type={"primary"}
+                disabled={loading}
+              >
+                Transcribe
+              </Button>
           </Form.Item>}
         </div>
       </Form>

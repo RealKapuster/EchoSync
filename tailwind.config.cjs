@@ -10,10 +10,10 @@ const config = {
         // default breakpoints but with 40px removed
         screens: {
           sm: '600px',
-          md: '728px',
-          lg: '984px',
-          xl: '1200px',
-          '2xl': '1300px',
+          md: '950px',
+          lg: '950px',
+          xl: '950px',
+          '2xl': '950px',
         },
       },
       colors: {

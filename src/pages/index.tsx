@@ -2,11 +2,15 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Header from "~/components/layout/Header";
 import {useAtom} from "jotai";
-import { accountAtom } from '~/store';
+import { accountAtom, transcriptAtom } from '~/store';
 import Transcribe from "~/components/Transcribe";
+import Transcription from "~/components/Transcription";
 
 const Home: NextPage = () => {
   const [account] = useAtom(accountAtom);
+  const [transcript] = useAtom(transcriptAtom);
+
+  console.log(transcript);
 
   return (
     <div className="bg-bgGray">
@@ -18,8 +22,9 @@ const Home: NextPage = () => {
       <Header></Header>
       <main className="container flex min-h-screen flex-col items-center pt-12">
         {account ? 
-          <div>
+          <div className="flex gap-8 flex-col">
             <Transcribe></Transcribe>
+            {transcript && <Transcription transcript={transcript}></Transcription>}
           </div> : 
           <h2>logged out</h2>
         }
