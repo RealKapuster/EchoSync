@@ -24,7 +24,10 @@ const Home: NextPage = () => {
         {account ? 
           <div className="flex gap-8 flex-col">
             <Transcribe></Transcribe>
-            {transcript && <Transcription transcript={transcript}></Transcription>}
+            {transcript && 
+              <Transcription transcript={transcript}></Transcription>
+              // Button to upload to the Polybase chain
+            }
           </div> : 
           <h2>logged out</h2>
         }

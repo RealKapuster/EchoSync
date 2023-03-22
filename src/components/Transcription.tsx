@@ -1,5 +1,5 @@
 import { Button, Form, message, Upload } from "antd";
-import Editor from "./ui/Editor";
+import Editor from "./ui/TextEditor";
 
 const Transcription = ({transcript}: {transcript: string}) => {
 

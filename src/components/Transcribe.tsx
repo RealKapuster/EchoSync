@@ -2,19 +2,18 @@ import { InboxOutlined } from "@ant-design/icons";
 import { Button, Form, message, Upload } from "antd";
 import { useState } from "react";
 import axios from "axios";
-
+import {useAtom} from "jotai";
+import {updateTranscriptAtom } from '~/store';
 import { RcFile } from "antd/es/upload";
-import type { UploadProps } from "antd";
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 
-import {useAtom} from "jotai";
-import { transcriptAtom, updateTranscriptAtom } from '~/store';
+import type { UploadProps } from "antd";
 
 const { Dragger } = Upload;
+const sizeLimit = 100 * 1024 * 1024; // 100 MB
 
 const Transcribe = () => {
   const [loading, setLoading] = useState(false);
-  const sizeLimit = 100 * 1024 * 1024; // 100 MB
   const [ ,updateTranscript] = useAtom(updateTranscriptAtom);
   const [uploadedFile, setUploadedFile] = useState<RcFile | undefined>(
     undefined
@@ -22,6 +21,7 @@ const Transcribe = () => {
 
   const submitAudioFile = async () => {
     console.log("Submit");
+    
     if (!uploadedFile) {
       console.error("No file selected");
       return;
@@ -86,6 +86,7 @@ const Transcribe = () => {
     },
   };
 
+  // Gets rid of the automatic file upload
   const dummyRequest = ({file, onSuccess}: RcCustomRequestOptions<any>) => {
     setTimeout(()=> {
       onSuccess && onSuccess(`${file} file uploaded successfully.`);
