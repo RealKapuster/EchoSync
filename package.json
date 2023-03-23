@@ -6,13 +6,16 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "load": "env-cmd --no-override --file .env ts-node ./schema/load.ts"
   },
   "dependencies": {
     "@polybase/auth": "^0.3.36",
-    "axios": "^1.3.4",
+    "@polybase/client": "^0.3.37",
+    "@polybase/eth": "^0.3.37",
     "antd": "^5.3.1",
     "axios": "^1.3.4",
+    "ethereumjs-wallet": "^1.0.2",
     "ethers": "^6.1.0",
     "form-data": "^4.0.0",
     "jotai": "^2.0.3",
@@ -23,9 +26,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "webmax": "^0.1.10",
-    "zod": "^3.20.6",
-    "multer": "^1.4.5-lts.1",
-    "openai": "^3.2.1"
+    "zod": "^3.20.6"
   },
   "devDependencies": {
     "@types/eslint": "^8.21.1",
@@ -37,14 +38,15 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "autoprefixer": "^10.4.7",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.34.0",
     "eslint-config-next": "^13.2.1",
     "postcss": "^8.4.14",
     "prettier": "^2.8.1",
     "prettier-plugin-tailwindcss": "^0.2.1",
     "tailwindcss": "^3.2.0",
-    "typescript": "^4.9.5",
-    "@types/multer": "^1.4.7"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
   },
   "ct3aMetadata": {
     "initVersion": "7.7.0"
