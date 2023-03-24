@@ -12,7 +12,7 @@ collection User {
   constructor (id: string) {
     this.id = id;
     this.publicKey = ctx.publicKey;
-    // this.transcripts = {};
+    this.transcripts = {};
   }
 
   function setTranscript (transcript: Transcript) {
@@ -32,7 +32,7 @@ collection Transcript {
   constructor (id: string, followee: string) {
     this.id = id;
     this.publicKey = ctx.publicKey;
-    // this.contents = {};
+    this.contents = {};
   }
   function setContent (content: string, type: string) {
     if (ctx.publicKey != this.publicKey) {

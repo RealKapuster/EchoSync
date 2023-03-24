@@ -10,9 +10,9 @@
     "load": "env-cmd --no-override --file .env ts-node ./schema/load.ts"
   },
   "dependencies": {
-    "@polybase/auth": "^0.3.36",
-    "@polybase/client": "^0.3.37",
-    "@polybase/eth": "^0.3.37",
+    "@polybase/auth": "^0.3.38",
+    "@polybase/client": "^0.3.38",
+    "@polybase/eth": "^0.3.38",
     "antd": "^5.3.1",
     "axios": "^1.3.4",
     "ethereumjs-wallet": "^1.0.2",
