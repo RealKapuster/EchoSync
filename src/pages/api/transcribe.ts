@@ -1,3 +1,4 @@
+import { FILE_SIZE_LIMIT } from "./../../constants";
 import nextConnect from "next-connect";
 import multer, { type FileFilterCallback } from "multer";
 import axios from "axios";
@@ -12,6 +13,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
     buffer: Buffer;
     originalname: string;
   };
+  body: { mock?: "true" | "false" };
 }
 
 class ValidationError extends Error {
@@ -31,7 +33,7 @@ const upload = multer({
     }
   },
   limits: {
-    fileSize: 1024 * 1024 * 10, // 10 MB in bytes
+    fileSize: FILE_SIZE_LIMIT,
   },
 });
 
@@ -53,6 +55,7 @@ handler.use(upload.single("file"));
 handler.post(async (req, res) => {
   try {
     const file = req.file;
+    const mock = req.body.mock?.toLowerCase() === "true";
 
     if (!file) {
       return res.status(400).json({ message: "No file received" });
@@ -63,7 +66,7 @@ handler.post(async (req, res) => {
     formData.append("file", file.buffer, { filename: file.originalname });
     formData.append("model", "whisper-1");
 
-    if (!OPENAI_API_KEY) {
+    if (!OPENAI_API_KEY || mock) {
       return res.status(200).json({
         text: `${transcriptionMockData.transcription}`,
       });

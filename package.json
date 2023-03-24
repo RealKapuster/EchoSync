@@ -2,12 +2,16 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
     "load": "env-cmd --no-override --file .env ts-node ./schema/load.ts"
+    "gcp-build": "next build"
   },
   "dependencies": {
     "@polybase/auth": "^0.3.38",

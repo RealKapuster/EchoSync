@@ -26,13 +26,13 @@ const Transcribe = () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", uploadedFile);
-
+    formData.append("mock", "true");
     try {
       const response = await axios.post<{ text: string }>(
         "/api/transcribe",
         formData
       );
-      console.log(response.data);
+
       setTranscript(response.data.text);
       console.log(response.data.text);
     } catch (error: any) {
@@ -48,29 +48,10 @@ const Transcribe = () => {
   const uploadSettings: UploadProps = {
     name: "audioFile",
     multiple: false,
-
-    onChange(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-        setUploadedFile(undefined);
-      }
-
-      if (status === "done" && info.file.size && info.file.size > sizeLimit) {
-        message.error(
-          `${info.file.name} exceeds 100 MB. Please choose a smaller file.`
-        );
-        setUploadedFile(undefined);
-        return;
-      }
-
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-        setUploadedFile(info.file.originFileObj);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-        setUploadedFile(undefined);
-      }
+    beforeUpload: (file) => {
+      console.log(file);
+      setUploadedFile(file);
+      return false;
     },
     onDrop(e) {
       console.log("Dropped files", e.dataTransfer.files);
