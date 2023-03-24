@@ -26,13 +26,13 @@ const Transcribe = () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", uploadedFile);
-
+    formData.append("mock", "true");
     try {
       const response = await axios.post<{ text: string }>(
         "/api/transcribe",
         formData
       );
-      console.log(response.data);
+
       setTranscript(response.data.text);
       console.log(response.data.text);
     } catch (error: any) {

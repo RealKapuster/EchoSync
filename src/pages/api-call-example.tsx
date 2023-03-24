@@ -15,6 +15,9 @@ import { ChatCompletionResponseMessage } from "openai";
 
 const { Text } = Typography;
 
+const FILE_SIZE_LIMIT = 50 * 1024 * 1024; // 100 MB
+const AUDIO_DURATION_LIMIT = 60 * 21; // 20 minutes
+
 const ApiCallExample = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -27,15 +30,30 @@ const ApiCallExample = () => {
     const selectedFile = event.target.files?.[0];
     console.log(selectedFile);
     if (selectedFile) {
-      const sizeLimit = 100 * 1024 * 1024; // 100 MB
-
-      if (selectedFile.size > sizeLimit) {
-        alert("File size exceeds 100 MB. Please choose a smaller file.");
+      if (selectedFile.size > FILE_SIZE_LIMIT) {
+        message.error("File size exceeds 50 MB. Please choose a smaller file.");
         return;
       }
     }
 
-    setFile(selectedFile || null);
+    try {
+      const obUrl = URL.createObjectURL(selectedFile!);
+      const audio = new Audio(obUrl);
+      audio.addEventListener("loadedmetadata", () => {
+        console.log(audio.duration);
+
+        if (audio.duration < AUDIO_DURATION_LIMIT) {
+          setFile(selectedFile || null);
+        } else {
+          message.error(
+            "Audio duration exceeds 20 minutes. Please choose a shorter audio."
+          );
+        }
+      });
+    } catch (error: any) {
+      message.error("Error: audio file not valid");
+      console.error(error);
+    }
   };
 
   const handleChooseFileClick = () => {
@@ -51,7 +69,9 @@ const ApiCallExample = () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
+    // formData.append("mock", "true");
     console.log(file.name);
+
     try {
       const response = await axios.post<{ text: string }>(
         "/api/transcribe",
