@@ -12,6 +12,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
     buffer: Buffer;
     originalname: string;
   };
+  body: { mock?: "true" | "false" };
 }
 
 class ValidationError extends Error {
@@ -53,6 +54,7 @@ handler.use(upload.single("file"));
 handler.post(async (req, res) => {
   try {
     const file = req.file;
+    const mock = req.body.mock?.toLowerCase() === "true";
 
     if (!file) {
       return res.status(400).json({ message: "No file received" });
@@ -63,7 +65,7 @@ handler.post(async (req, res) => {
     formData.append("file", file.buffer, { filename: file.originalname });
     formData.append("model", "whisper-1");
 
-    if (!OPENAI_API_KEY) {
+    if (!OPENAI_API_KEY || mock) {
       return res.status(200).json({
         text: `${transcriptionMockData.transcription}`,
       });
