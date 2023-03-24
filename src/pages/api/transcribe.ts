@@ -1,3 +1,4 @@
+import { FILE_SIZE_LIMIT } from "./../../constants";
 import nextConnect from "next-connect";
 import multer, { type FileFilterCallback } from "multer";
 import axios from "axios";
@@ -32,7 +33,7 @@ const upload = multer({
     }
   },
   limits: {
-    fileSize: 1024 * 1024 * 10, // 10 MB in bytes
+    fileSize: FILE_SIZE_LIMIT,
   },
 });
 

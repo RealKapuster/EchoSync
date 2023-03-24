@@ -12,11 +12,9 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import { PromptType } from "./api/gpt";
 import { ChatCompletionResponseMessage } from "openai";
+import { AUDIO_DURATION_LIMIT, FILE_SIZE_LIMIT } from "~/constants";
 
 const { Text } = Typography;
-
-const FILE_SIZE_LIMIT = 50 * 1024 * 1024; // 100 MB
-const AUDIO_DURATION_LIMIT = 60 * 21; // 20 minutes
 
 const ApiCallExample = () => {
   const [file, setFile] = useState<File | null>(null);
