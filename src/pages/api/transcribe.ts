@@ -5,7 +5,8 @@ import FormData from "form-data";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { transcriptionMockData } from "./../../utils/mockData";
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+// const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_API_KEY = null;
 
 interface ExtendedNextApiRequest extends NextApiRequest {
   file?: {

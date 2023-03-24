@@ -10,7 +10,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 import type { UploadProps } from "antd";
 
 const { Dragger } = Upload;
-const sizeLimit = 100 * 1024 * 1024; // 100 MB
+const sizeLimit = 1024 * 1024 * 10; // 10 MB in bytes;
 
 const Transcribe = () => {
   const [loading, setLoading] = useState(false);
@@ -33,8 +33,8 @@ const Transcribe = () => {
 
     try {
       const response = await axios.post<{ text: string }>(
-        // "/api/transcribe",
-        "/api/fakeTranscribe",
+        "/api/transcribe",
+        // "/api/fakeTranscribe", //another fake api route
         formData
       );
       updateTranscript(response.data.text);
