@@ -12,8 +12,8 @@ const config = {
           sm: '600px',
           md: '950px',
           lg: '950px',
-          xl: '950px',
-          '2xl': '950px',
+          xl: '1300px',
+          '2xl': '1300px',
         },
       },
       colors: {

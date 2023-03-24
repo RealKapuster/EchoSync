@@ -75,45 +75,47 @@ const Transcribe = () => {
   }
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-md">
-      <h2 className="mt-0 font-normal text-center">Upload Your Audio</h2>
-      <Form onFinish={() => submitAudioFile()}>
-        <div className="flex flex-col">
-          <Form.Item className="">
-            <Dragger
-              {...uploadSettings}
-              customRequest={dummyRequest}
-              accept="audio/wav, audio/mpeg, audio/m4a"
-              maxCount={1}
-            >
-              <div className="p-4">
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text !text-lg">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint !text-lg">
-                  Support for a single or bulk upload. Strictly prohibited from
-                  uploading company data or other banned files.
-                </p>
-              </div>
-            </Dragger>
-          </Form.Item>
-          {uploadedFile !== undefined && 
-            <Form.Item className="flex justify-end pt-3 mb-0">
-              <Button
-                className="bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto 
-                  hover:!bg-transparent hover:!text-btnColour hover:!border-solid disabled:!text-slate-200 border-btnColour border-1"
-                htmlType="submit"
-                type={"primary"}
-                disabled={loading}
+    <div className="rounded-lg bg-white shadow-md w-full">
+      <div className='p-6'>
+        <h2 className="mt-0 font-normal">Upload Your Audio</h2>
+        <Form onFinish={() => submitAudioFile()}>
+          <div className="flex flex-col">
+            <Form.Item className="">
+              <Dragger
+                {...uploadSettings}
+                customRequest={dummyRequest}
+                accept="audio/wav, audio/mpeg, audio/m4a"
+                maxCount={1}
               >
-                Transcribe
-              </Button>
-          </Form.Item>}
-        </div>
-      </Form>
+                <div className="p-4">
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text !text-lg">
+                    Click or drag file to this area to upload
+                  </p>
+                  <p className="ant-upload-hint !text-lg">
+                    Support for a single or bulk upload. Strictly prohibited from
+                    uploading company data or other banned files.
+                  </p>
+                </div>
+              </Dragger>
+            </Form.Item>
+            {uploadedFile !== undefined && 
+              <Form.Item className="flex justify-end pt-3 mb-0">
+                <Button
+                  className="bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto 
+                    hover:!bg-transparent hover:!text-btnColour hover:!border-solid disabled:!text-slate-200 border-btnColour border-1"
+                  htmlType="submit"
+                  type={"primary"}
+                  disabled={loading}
+                >
+                  Transcribe
+                </Button>
+            </Form.Item>}
+          </div>
+        </Form>
+      </div>
     </div>
   );
 };

@@ -53,19 +53,21 @@ const Transcription = ({transcript}: {transcript: string}) => {
     }
 
     return (
-        <div className="rounded-lg bg-white p-6 shadow-md">
-        <h2 className="mt-0 font-normal text-center">Your Transcription</h2>
-        <Form onFinish={() => storeTranscription()}>
-            <div className="flex flex-col">
-                <Editor transcript={transcript} ></Editor>
+        <div className="rounded-lg bg-white shadow-md w-full">
+        <div className='p-6'>
+            <h2 className="mt-0 font-normal">Your Transcription</h2>
+            <Form onFinish={() => storeTranscription()}>
+                <div className="flex flex-col">
+                    <Editor transcript={transcript} ></Editor>
+                </div>
+            </Form>
+            <div className="flex justify-end">
+                <Button type="primary" className="mt-4 bg-green bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto
+                    hover:!bg-transparent hover:!text-btnColour hover:!border-solid border-btnColour border-1" 
+                    onClick={storeTranscription}>
+                        Store on Polybase
+                </Button>
             </div>
-        </Form>
-        <div className="flex justify-end">
-            <Button type="primary" className="mt-4 bg-green bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto
-                hover:!bg-transparent hover:!text-btnColour hover:!border-solid border-btnColour border-1" 
-                onClick={storeTranscription}>
-                    Store on Polybase
-            </Button>
         </div>
     </div>
     )

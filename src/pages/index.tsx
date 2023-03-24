@@ -5,6 +5,7 @@ import {useAtom} from "jotai";
 import { accountAtom, transcriptAtom } from '~/store';
 import Transcribe from "~/components/Transcribe";
 import Transcription from "~/components/Transcription";
+import LensBox from "~/components/LensBox";
 
 const Home: NextPage = () => {
   const [account] = useAtom(accountAtom);
@@ -18,16 +19,24 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <main className="container flex min-h-screen flex-col items-center py-12">
-        {account ? 
-          <div className="flex gap-8 flex-col">
-            <Transcribe></Transcribe>
-            {transcript && 
-              <Transcription transcript={transcript}></Transcription>
-            }
-          </div> : 
-          <h2>logged out</h2>
-        }
+      <main className="container min-h-screen py-12 grid grid-cols-6 gap-8">
+          {account ?
+            <>
+              <div className="flex flex-col col-span-2">
+                <LensBox></LensBox>
+              </div> 
+              <div className="flex flex-col col-span-4">
+                <div className="flex gap-8 flex-col items-center">
+                  <Transcribe></Transcribe>
+                  {transcript && 
+                    <Transcription transcript={transcript}></Transcription>
+                  }
+                </div>
+              </div>
+            </>
+            : 
+            <h2>logged out</h2>
+          }
       </main>
     </div>
   );
