@@ -3,13 +3,13 @@ import Connect from "../ui/Connect";
 
 const Header = () => {
     return (
-        <header className="bg-white p-2 shadow">
+        <header className="bg-white p-[10px] shadow">
             <div className='container flex justify-between items-center'>
             <Image
-                src="/ui/parrot.svg"
+                src="/ui/echosync-color.svg"
                 alt="logo"
-                width={50}
-                height={50}
+                width={100}
+                height={60}
                 />
                 <nav>
 

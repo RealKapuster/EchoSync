@@ -29,19 +29,7 @@ handler.post(async (req, res) => {
     formData.append("file", file.buffer, { filename: file.originalname });
     formData.append("model", "whisper-1");
 
-    const response = await axios({
-      method: "POST",
-      url: "https://api.openai.com/v1/audio/transcriptions",
-      headers: {
-        "Content-Type": `multipart/form-data;`,
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-        ...formData.getHeaders(),
-      },
-      data: formData,
-    });
-
-    // res.status(200).json(response.data);
-    res.status(200).json({message: `:studio_microphone::headphones: NEW PODCAST ALERT :headphones::studio_microphone:
+    res.status(200).json({text: `:studio_microphone::headphones: NEW PODCAST ALERT :headphones::studio_microphone:
     Discover the mysterious world of #GoblinTown, a unique #NFT project shaking the foundations of what's expected in the #Web3 space! Join us as we dive into the grotesque art, intriguing narrative & innovative storytelling of this captivating project.
     :male_mage::speech_balloon: Goblin Town has created an authentic experience by engaging with the community through Twitter and its own language, Gobloney. Explore how this project connects to Joseph Campbell's classic hero's journey and the fascination with goblin-themed NFTs!
     :art::mag_right: From mysterious languages to Creative Commons Zero licensing and hidden Easter eggs in smart contracts, we discuss the unique aspects of this project. Learn how Goblin Town expanded its universe by allowing users to create their own character-defining burgers!
