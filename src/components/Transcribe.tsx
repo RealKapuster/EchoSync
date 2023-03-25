@@ -102,7 +102,7 @@ const Transcribe = () => {
               </Dragger>
             </Form.Item>
             {uploadedFile !== undefined && 
-              <Form.Item className="flex justify-end pt-3 mb-0">
+              <Form.Item className="flex justify-end mb-0">
                 <Button
                   className="bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto 
                     hover:!bg-transparent hover:!text-btnColour hover:!border-solid disabled:!text-slate-200 border-btnColour border-1"

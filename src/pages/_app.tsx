@@ -4,17 +4,12 @@ import "~/styles/globals.css";
 import {ConfigProvider} from "antd";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
+
   return (
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: '#2574A6',
-          },
-        }}
-      >
-      <JotaiProvider>
-        <Component {...pageProps} />
-      </JotaiProvider>
+      <ConfigProvider theme={{ token: {colorPrimary: '#2574A6',},}}>
+        <JotaiProvider>
+          <Component {...pageProps} />
+        </JotaiProvider>
     </ConfigProvider>
   );
 };

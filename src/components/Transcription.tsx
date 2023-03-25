@@ -62,7 +62,7 @@ const Transcription = ({transcript}: {transcript: string}) => {
                 </div>
             </Form>
             <div className="flex justify-end">
-                <Button type="primary" className="mt-4 bg-green bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto
+                <Button type="primary" className="mt-6 bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto
                     hover:!bg-transparent hover:!text-btnColour hover:!border-solid border-btnColour border-1" 
                     onClick={storeTranscription}>
                         Store on Polybase

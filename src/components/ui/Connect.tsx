@@ -71,7 +71,7 @@ const Connect = () => {
                 </Button>
             </div>
             :
-            <Button type="primary" className="bg-green bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto
+            <Button type="primary" className=" bg-btnColour rounded-full font-bold text-md py-[10px] px-6 h-auto
                 hover:!bg-transparent hover:!text-btnColour hover:!border-solid border-btnColour border-1" 
                 onClick={()=> signOut()}>
                     Disconnect
