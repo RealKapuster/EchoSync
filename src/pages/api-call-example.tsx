@@ -13,6 +13,9 @@ import { UploadOutlined } from "@ant-design/icons";
 import { PromptType } from "./api/gpt";
 import { ChatCompletionResponseMessage } from "openai";
 import { AUDIO_DURATION_LIMIT, FILE_SIZE_LIMIT } from "~/constants";
+import { encoding_for_model } from "@dqbd/tiktoken";
+
+const gptEncoder = encoding_for_model("gpt-3.5-turbo");
 
 const { Text } = Typography;
 
@@ -21,7 +24,7 @@ const ApiCallExample = () => {
   const [loading, setLoading] = useState(false);
   const [transcription, setTranscription] = useState<string | null>(null);
   const [content, setContent] = useState<string | null>(null);
-  const [promptType, setPromptType] = useState<PromptType>("Tweet");
+  const [promptType, setPromptType] = useState<PromptType>("Lens");
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +47,7 @@ const ApiCallExample = () => {
           setFile(selectedFile || null);
         } else {
           message.error(
-            "Audio duration exceeds 20 minutes. Please choose a shorter audio."
+            "Audio duration exceeds 30 minutes. Please choose a shorter audio."
           );
         }
       });
@@ -88,7 +91,14 @@ const ApiCallExample = () => {
     setLoading(false);
   };
   const handleSubmitTranscription = async () => {
+    if (!transcription) {
+      console.error("No transcription");
+      return;
+    }
     setLoading(true);
+
+    // const tokens = gptEncoder.encode(transcription!).slice(0, 4000);
+    // const text = new TextDecoder().decode(gptEncoder.decode(tokens));
     try {
       const response = await axios.post<ChatCompletionResponseMessage>(
         "/api/gpt",
@@ -170,9 +180,10 @@ const ApiCallExample = () => {
             </Form.Item>
             <Form.Item className="mb-0" name="promptType">
               <Radio.Group onChange={handlePromptTypeChange}>
+                <Radio value="Lens">Lens</Radio>
                 <Radio value="Tweet">Tweet</Radio>
-                <Radio value="Blog">Blog</Radio>
-                <Radio value="Newsletter">Newsletter</Radio>
+                {/* <Radio value="Blog">Blog</Radio>
+                <Radio value="Newsletter">Newsletter</Radio> */}
               </Radio.Group>
             </Form.Item>
             <Form.Item className="pt-0">

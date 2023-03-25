@@ -6,10 +6,11 @@ import {
 } from "openai";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { gptMockData } from "~/utils/mockData";
-
+import { get_encoding } from "@dqbd/tiktoken";
+const gptEncoder = get_encoding("cl100k_base");
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-export type PromptType = "Tweet" | "Blog" | "Newsletter";
+export type PromptType = "Tweet" | "Blog" | "Newsletter" | "Lens";
 
 interface ExtendedNextApiRequest extends NextApiRequest {
   body: {
@@ -29,12 +30,12 @@ const getSystemPrompt = (
   promptType?: PromptType
 ): ChatCompletionResponseMessage => {
   let message =
-    "You are an excellent public relations specialist. Please summarize the given text";
+    "Summarize the following text and it should be concise and informative, providing key takeaways and insights.";
 
   switch (promptType) {
     case "Tweet":
       message =
-        "You are an excellent public relations specialist. Convert the given text into a Twitter thread format with each thread separated by a line break.";
+        "Convert the following text into a Twitter thread. A Twitter thread should be concise and informative, providing key takeaways and insights that would be of interest to your audience. Consider breaking up the text into 5-10 tweets, each containing a single main point or idea. Try to use bullet points, short sentences, and impactful language to make the tweets engaging and easy to read. Additionally, consider using hashtags to make the tweets more discoverable and relevant to your target audience.";
       break;
     case "Blog":
       message =
@@ -43,6 +44,14 @@ const getSystemPrompt = (
     case "Newsletter":
       message =
         "You are an excellent public relations specialist. Convert the given text into a newsletter format.";
+      break;
+    case "Lens":
+      message =
+        "Convert the following text to a Lens post format(web3 social protocol). A Lens post should be concise and informative, providing key takeaways and insights. Consider using bullet points or short paragraphs to make the content easy to read and digest. Additionally, try to use hashtags to make the post more discoverable and relevant to the Lens community.";
+      break;
+    default:
+      message =
+        "Summarize the following text and it should be concise and informative, providing key takeaways and insights.";
       break;
   }
 
@@ -57,11 +66,6 @@ const handler = nextConnect<ExtendedNextApiRequest, NextApiResponse>();
 handler.post(async (req, res) => {
   const prompt = req.body.promptType;
 
-  const messages: ChatCompletionResponseMessage[] = [
-    getSystemPrompt(prompt),
-    { role: "user", content: req.body.text },
-  ];
-
   if (!OPENAI_API_KEY) {
     return res.status(200).json({
       role: "user",
@@ -70,6 +74,13 @@ handler.post(async (req, res) => {
   }
 
   try {
+    const content = await summarize(req.body.text);
+
+    const messages: ChatCompletionResponseMessage[] = [
+      getSystemPrompt(prompt),
+      { role: "user", content: content },
+    ];
+
     const baseCompletion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: messages,
@@ -84,3 +95,53 @@ handler.post(async (req, res) => {
 });
 
 export default handler;
+
+function chunkArray(array: Uint32Array, chunkSize: number): number[][] {
+  let chunks: number[][] = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(Array.from(array.slice(i, i + chunkSize)));
+  }
+  return chunks;
+}
+
+const summarize = async (text: string) => {
+  const maxTokenLength = 4096 - 1000;
+  const tokens = gptEncoder.encode(text);
+  if (tokens.length < maxTokenLength) {
+    return text;
+  }
+
+  const numChunks = Math.ceil(tokens.length / maxTokenLength); // calculate number of chunks
+  const chunkSize = Math.ceil(tokens.length / numChunks); // calculate chunk size
+
+  const tokenChunks = chunkArray(tokens, chunkSize);
+  let summaryChunks: string[] = [];
+
+  for (let i = 0; i < tokenChunks.length; i++) {
+    const chunkText = new TextDecoder().decode(
+      gptEncoder.decode(Uint32Array.from(tokenChunks[i]!))
+    );
+    const messages: ChatCompletionResponseMessage[] = [
+      getSystemPrompt(),
+      { role: "user", content: chunkText },
+    ];
+    console.log(Math.floor(maxTokenLength / tokenChunks.length));
+    try {
+      const baseCompletion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        max_tokens: Math.floor(maxTokenLength / tokenChunks.length),
+        messages: messages,
+      });
+      const summary = baseCompletion?.data?.choices?.[0]?.message?.content;
+
+      // console.log("summary: ", summary);
+      summaryChunks.push(summary!);
+    } catch (error) {
+      console.log(error);
+      throw new Error();
+    }
+  }
+
+  const finalSummary = summaryChunks.join("");
+  return finalSummary;
+};

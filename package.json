@@ -14,6 +14,7 @@
     "gcp-build": "next build"
   },
   "dependencies": {
+    "@dqbd/tiktoken": "^1.0.2",
     "@polybase/auth": "^0.3.38",
     "@polybase/client": "^0.3.38",
     "@polybase/eth": "^0.3.38",
