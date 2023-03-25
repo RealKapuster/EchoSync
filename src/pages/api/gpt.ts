@@ -21,6 +21,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
   body: {
     text: string;
     promptType?: PromptType;
+    mock?: boolean;
   };
 }
 
@@ -76,7 +77,7 @@ const handler = nextConnect<ExtendedNextApiRequest, NextApiResponse>();
 handler.post(async (req, res) => {
   const prompt = req.body.promptType;
 
-  if (!OPENAI_API_KEY) {
+  if (!OPENAI_API_KEY || req.body.mock) {
     return res.status(200).json({
       role: "user",
       content: `${gptMockData[prompt || "Tweet"]}`,
