@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       <Head>
         <title>EchoSync</title>
         <meta name="description" content="transcribe your DAO meetings" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/ui/echosync-color.svg" />
       </Head>
       <Header></Header>
       <main className="container min-h-screen py-12 grid grid-cols-6 gap-8">
