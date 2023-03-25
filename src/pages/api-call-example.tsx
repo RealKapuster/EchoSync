@@ -70,7 +70,7 @@ const ApiCallExample = () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
-    // formData.append("mock", "true");
+    formData.append("mock", "true");
     console.log(file.name);
 
     try {
@@ -182,6 +182,7 @@ const ApiCallExample = () => {
               <Radio.Group onChange={handlePromptTypeChange}>
                 <Radio value="Lens">Lens</Radio>
                 <Radio value="Tweet">Tweet</Radio>
+                <Radio value="MeetingNotes">MeetingNotes</Radio>
                 {/* <Radio value="Blog">Blog</Radio>
                 <Radio value="Newsletter">Newsletter</Radio> */}
               </Radio.Group>

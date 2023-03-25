@@ -4,17 +4,16 @@ export const transcriptionMockData = {
 };
 
 export const gptMockData = {
-  Tweet: `🎉 Introducing WCBH - a podcast about storytelling and NFTs! 🎙️ Follow the journey of three film producers and a tech guy as they explore the world of Web3 and its impact on storytelling. 
+  Tweet: `
+1/ ApeCoin Community Hour is a weekly discussion forum for updates on the latest developments in the ApeCoin community. All are invited to participate and ask questions via text or request to speak.
 
-👋 Meet the hosts: Min, Fred, Sasha, and Seth. They all come from different backgrounds but share a passion for NFTs and its potential for innovation in storytelling. 
-
-🦸‍♂️🦸‍♀️At the core of great stories is the quest of the hero. With NFTs, this formula is being supercharged through digital ownership. The audience gets to participate in the story like never before! 
-
-🎭 The medium for NFT storytelling can be anything - games, movies, comic books, music, and more. The possibilities are endless! 
-
-🤝 As NFT holders, we become part of the community that shapes the story. We can be heroes! 
-
-📈 Whether you're an investor or just a fan of good storytelling, WCBH's first season breaks down some of the most notable NFT collections from a storytelling angle. Tune in!  
+2/ The current focus is on crafting the DAO's mission statement and structure. Working Group Zero is leading the charge on RFP processes to find new administrators and establishing priorities.
+  
+3/ The community is discussing the role of ApeCoin in the metaverse and the tools needed to empower creators and developers. Stewards are leading focus groups, delegating responsibilities, and driving mission statement efforts.
+  
+4/ Beta testing for Ape Talent features is underway, and a Legal Focus Group Workshop is scheduled for Monday. Recent AIP votes had mixed results, with a successful "Thank Ape" proposal and both creative proposals failing to pass.
+  
+5/ Helena and Sword are part of the Advisory Committee for "Thank Ape," which was able to succeed. Follow ApeCoin for more updates on its community efforts and the future of the metaverse! 
 `,
   Blog: `Exploring the True Power of NFTs: A Storytelling Renaissance
 
@@ -48,5 +47,37 @@ Best regards,
 
 The WCBH Team
 `,
-  Lens: "Lens post",
+  Lens: `
+🐵🪙 The ApeCoin Community Hour was held on Jan 27th, 2023!
+
+🎯 Workgroup Zero's top priority is crafting a mission statement, with a focus on creating alignment around a shared vision.
+  
+💡 The group discussed the challenges of getting everyone on the same page and emphasized the importance of community involvement.
+  
+👥 Working Group Zero is delegating responsibilities and narrowing focus to fulfill its mission statement, interacting with other DAOs for inspiration.
+  
+👀 Alpha updates were provided on the RFP process for finding new DAO administrators and an AIP that was returned for reconstruction.
+  
+💻 The Legal Focus Group approved a proposal on beta testing Ape Talent through ThankApe.
+  
+🙌 ThankApe proposal passed successfully, but despite community-led proposals, the Creative Proposals were not approved.
+  
+#ApeCoin #DAO #CommunityHour #Missionstatement #ThankApe #RFP #Alignment #CommunityInvolvement
+`,
+  MeetingNotes: `
+ApeCoin Community Hour
+
+- Weekly event for discussing recent events and ongoing projects in ApeCoin community.
+- Crafting a mission statement for ApeCoinDAO is top priority.
+- Focus is on creating alignment around a mission that people believe in.
+- Mission will evolve with the space and focus on distributing ApeCoin and supporting metaverse ecosystem.
+- RFP process to find new DAO administrators is also a priority.
+- Working group is focused on establishing clear path forward for the community and grant foundation.
+- Stewardship is heading focus groups for comms, governance, and operations.
+- Discussions with representatives from other DAOs for learning and understanding different structures.
+- Only one AIP was approved last week.
+- Thank Ape is one of the few initiatives that passed.
+- It is challenging to pass proposals due to many factors.
+- More proposals are needed to pass.
+`,
 };
