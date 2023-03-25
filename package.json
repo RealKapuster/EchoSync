@@ -10,7 +10,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "load": "env-cmd --no-override --file .env ts-node ./schema/load.ts"
+    "load": "env-cmd --no-override --file .env ts-node ./schema/load.ts",
     "gcp-build": "next build"
   },
   "dependencies": {
